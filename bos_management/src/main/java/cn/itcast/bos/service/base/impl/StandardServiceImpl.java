@@ -1,5 +1,7 @@
 package cn.itcast.bos.service.base.impl;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -30,6 +32,14 @@ public class StandardServiceImpl implements StandardService{
 	@Override
 	public Page<Standard> findPageData(Pageable pageable) {
 		return standardRespory.findAll(pageable);
+	}
+
+	/**
+	 * 查询所有收派标准
+	 */
+	@Override
+	public List<Standard> findAll() {
+		return standardRespory.findAll();
 	}
 
 }

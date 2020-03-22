@@ -1,6 +1,7 @@
 package cn.itcast.bos.web.action.base;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.struts2.convention.annotation.Action;
@@ -81,4 +82,13 @@ public class StandardAction extends ActionSupport implements ModelDriven<Standar
 		return SUCCESS;
 	}
 	
+	/**
+	 * 查询所有收派标准
+	 */
+	@Action(value="standard_findAll",results={@Result(name="success",type="json")})
+	public String fiandAll(){
+		List<Standard> standardList = standardService.findAll();
+		ActionContext.getContext().getValueStack().push(standardList);
+		return SUCCESS;
+	}
 }
