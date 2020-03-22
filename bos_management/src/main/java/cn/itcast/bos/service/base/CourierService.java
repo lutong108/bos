@@ -12,4 +12,6 @@ public interface CourierService {
 
 	Page<Courier> pageQuery(Specification<Courier> specification,Pageable pageAble);
 
+	void delBatch(String[] idArr);
+
 }

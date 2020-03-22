@@ -120,4 +120,24 @@ public class CourierAction extends ActionSupport implements ModelDriven<Courier>
 		
 		return SUCCESS;
 	}
+	
+	//属性驱动
+	private String ids;
+	public void setIds(String ids) {
+		this.ids = ids;
+	}
+	/**
+	 * 快递员批量作废
+	 */
+	@Action(value="courier_delBatch",results={@Result(name="success",type="redirect",
+			location="/pages/base/courier.html")})
+	public String delBatch(){
+		//分割id
+		String[] idArr = ids.split(",");
+		//调业务层
+		courierService.delBatch(idArr);
+		
+		return SUCCESS;
+	}
+	
 }

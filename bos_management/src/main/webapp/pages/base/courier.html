@@ -43,8 +43,24 @@
 				alert("修改...");
 			}
 			
+			//快递员作废
 			function doDelete(){
-				alert("删除...");
+				//拿到勾选的数据
+				var rows = $('#grid').datagrid("getSelections");
+				//判断数据是否勾选
+				if(rows.length == 0){
+					$.messager.alert("警告","至少需要勾选一条数据！","warning");
+				}else{
+					//获取勾选快递员的id
+					var array = new Array();
+					for(var i=0;i<rows.length;i++){
+						array.push(rows[i].id);
+					}
+					//将数据转字符串，用逗号分割
+					var ids = array.join(",");
+					//发送请求
+					window.location.href = "../../courier_delBatch.action?ids="+ids;
+				}
 			}
 			
 			function doRestore(){
@@ -138,10 +154,10 @@
 				width : 80,
 				align : 'center',
 				formatter : function(data,row, index){
-					if(data=="0"){
-						return "正常使用"
-					}else{
+					if(data=="1"){
 						return "已作废";
+					}else{
+						return "正常使用"
 					}
 				}
 			}, {

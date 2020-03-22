@@ -31,4 +31,13 @@ public class CourierServiceImpl implements CourierService {
 		return courierRespory.findAll(specification,pageAble);
 	}
 
+	/**
+	 * 快递员批量作废
+	 */
+	@Override
+	public void delBatch(String[] idArr) {
+		for (int i = 0; i < idArr.length; i++) {
+			courierRespory.delBatch(Integer.parseInt(idArr[i]));
+		}
+	}
 }
