@@ -4,9 +4,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -29,28 +27,25 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Controller;
 
-import com.opensymphony.xwork2.ActionContext;
-import com.opensymphony.xwork2.ActionSupport;
-import com.opensymphony.xwork2.ModelDriven;
-
 import cn.itcast.bos.domain.base.Area;
 import cn.itcast.bos.service.base.AreaService;
 import cn.itcast.bos.utils.PinYin4jUtils;
+import cn.itcast.bos.web.action.common.BaseAction;
 
 @ParentPackage("json-default")
 @Namespace("/")
 @Controller
 @Scope("prototype")
-public class AreaAction extends ActionSupport implements ModelDriven<Area>{
+public class AreaAction extends BaseAction<Area>{
 
 	private static final long serialVersionUID = 1L;
 	
 	//模型驱动
-	private Area area = new Area();
+	/*private Area area = new Area();
 	@Override
 	public Area getModel() {
 		return area;
-	}
+	}*/
 
 	//属性驱动
 	private File file;
@@ -122,16 +117,6 @@ public class AreaAction extends ActionSupport implements ModelDriven<Area>{
 		return NONE;
 	}
 	
-	//属性驱动
-	private int page;
-	private int rows;
-	
-	public void setPage(int page) {
-		this.page = page;
-	}
-	public void setRows(int rows) {
-		this.rows = rows;
-	}
 	/**
 	 * 区域信息分页查询
 	 */
@@ -146,18 +131,18 @@ public class AreaAction extends ActionSupport implements ModelDriven<Area>{
 				List<Predicate> predicateList = new ArrayList<Predicate>();
 				//本表查询
 				//构造province like %?%
-				if(StringUtils.isNotBlank(area.getProvince())){
-					Predicate p1 = cb.like(root.get("province").as(String.class),"%"+area.getProvince()+"%");
+				if(StringUtils.isNotBlank(model.getProvince())){
+					Predicate p1 = cb.like(root.get("province").as(String.class),"%"+model.getProvince()+"%");
 					predicateList.add(p1);
 				}
 				//构造city like %?%
-				if(StringUtils.isNotBlank(area.getCity())){
-					Predicate p2 = cb.like(root.get("city").as(String.class), "%"+area.getCity()+"%");
+				if(StringUtils.isNotBlank(model.getCity())){
+					Predicate p2 = cb.like(root.get("city").as(String.class), "%"+model.getCity()+"%");
 					predicateList.add(p2);
 				}
 				//构造district like %?%
-				if(StringUtils.isNotBlank(area.getDistrict())){
-					Predicate p3 = cb.like(root.get("district").as(String.class), "%"+area.getDistrict()+"%");
+				if(StringUtils.isNotBlank(model.getDistrict())){
+					Predicate p3 = cb.like(root.get("district").as(String.class), "%"+model.getDistrict()+"%");
 					predicateList.add(p3);
 				}
 				
@@ -167,10 +152,7 @@ public class AreaAction extends ActionSupport implements ModelDriven<Area>{
 		//调用查询方法
 		Page<Area> pageData = areaService.pageQuery(specification,pageAble);
 		//分离查询数据，并放入值栈
-		Map<String,Object> map = new HashMap<String,Object>();
-		map.put("total", pageData.getTotalElements());
-		map.put("rows", pageData.getContent());
-		ActionContext.getContext().getValueStack().push(map);
+		pushPageDataToValueStack(pageData);
 		
 		return SUCCESS;
 	}
