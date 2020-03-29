@@ -147,4 +147,24 @@ public class FixedAreaAction extends BaseAction<FixedArea>{
 		return SUCCESS;
 	}
 	
+	//属性驱动
+	private Integer courierId;
+	private Integer takeTimeId;
+	public void setCourierId(Integer courierId) {
+		this.courierId = courierId;
+	}
+	public void setTakeTimeId(Integer takeTimeId) {
+		this.takeTimeId = takeTimeId;
+	}
+
+	/**
+	 * 定区关联快递员，快递员关联收派时间
+	 */
+	@Action(value = "fixedArea_associationCourierToFixedArea",
+			results={@Result(name="success",type="redirect",
+			location="/pages/base/fixed_area.html")})
+	public String associationCourierToFixedArea(){
+		 fixedAreaService.associationCourierToFixedArea(model,courierId,takeTimeId);
+		return SUCCESS;
+	}
 }

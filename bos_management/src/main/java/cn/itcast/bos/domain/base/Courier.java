@@ -13,6 +13,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import org.apache.struts2.json.annotations.JSON;
+import org.springframework.data.annotation.Transient;
 
 /**
  * @description:快递员
@@ -167,5 +168,9 @@ public class Courier {
 
 	public void setStandard(Standard standard) {
 		this.standard = standard;
+	}
+	@Transient
+	public String getInfo(){
+		return name+"("+company+")";
 	}
 }

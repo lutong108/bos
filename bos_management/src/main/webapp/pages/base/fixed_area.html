@@ -556,9 +556,8 @@
 		<div class="easyui-window" title="关联快递员窗口" id="courierWindow" modal="true"
 			collapsible="false" closed="true" minimizable="false" maximizable="false" style="top:20px;left:200px;width: 700px;height: 300px;">
 			<div style="overflow:auto;padding:5px;" border="false">
-			<!-- id="courierForm" 
-					action="../../fixedArea_associationCourierToFixedArea.action" method="post" -->
-				<form >
+				<form id="courierForm" 
+					action="../../fixedArea_associationCourierToFixedArea.action" method="post">
 					<table class="table-edit" width="80%" align="center">
 						<tr class="title">
 							<td colspan="2">关联快递员</td>
@@ -568,17 +567,17 @@
 							<td>
 								<!-- 存放定区编号 -->
 								<input type="hidden" name="id" id="courierFixedAreaId" />
-								<!-- <input type="text" name="courierId" class="easyui-combobox" required="true" 
+								<input type="text" name="courierId" class="easyui-combobox" required="true" 
 									data-options="url:'../../courier_findnoassociation.action',
-										valueField:'id',textField:'info'"/> -->
+										valueField:'id',textField:'info'"/>
 							</td>
 						</tr>
 						<tr>
 							<td>选择收派时间</td>
 							<td>
-								<!-- <input type="text" name="takeTimeId" class="easyui-combobox" required="true"
+								<input type="text" name="takeTimeId" class="easyui-combobox" required="true"
 									data-options="url:'../../taketime_findAll.action', 
-									valueField:'id',textField:'name'" /> -->
+									valueField:'id',textField:'name'" />
 							</td>
 						</tr>
 						<tr>

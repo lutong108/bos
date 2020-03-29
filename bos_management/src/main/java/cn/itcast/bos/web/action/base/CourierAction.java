@@ -140,4 +140,16 @@ public class CourierAction extends ActionSupport implements ModelDriven<Courier>
 		return SUCCESS;
 	}
 	
+	/**
+	 * 查询未关联定区快递员
+	 */
+	@Action(value="courier_findnoassociation",results={@Result(name="success",type="json")})
+	public String findNoassociationCourier(){
+		//调业务层
+		List<Courier> courierList = courierService.findNoassociationCourier();
+		//返回数据
+		ActionContext.getContext().getValueStack().push(courierList);
+		
+		return SUCCESS;
+	}
 }
