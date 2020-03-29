@@ -17,5 +17,9 @@ public interface CustomerRespory extends JpaRepository<Customer, Integer> {
 	@Query("update Customer set fixedAreaId = ? where id = ?")
 	@Modifying
 	public void updateFixedAreaId(String fixedAreaId, Integer id);
+
+	@Query("update Customer set fixedAreaId = null where fixedAreaId = ?")
+	@Modifying
+	public void cleanFixedAreaId(String fixedAreaId);
 	
 }

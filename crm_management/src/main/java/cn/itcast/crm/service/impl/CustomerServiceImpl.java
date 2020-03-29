@@ -2,6 +2,7 @@ package cn.itcast.crm.service.impl;
 
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -38,10 +39,18 @@ public class CustomerServiceImpl implements CustomerService {
 	 */
 	@Override
 	public void associationCustoimersToFixedArea(String custoimerIds, String fixedAreaId) {
-		String[] ids = custoimerIds.split(",");
-		for (int i = 0; i < ids.length; i++) {
-			Integer id = Integer.parseInt(ids[i]);
-			customerRespory.updateFixedAreaId(fixedAreaId,id);
+		if(StringUtils.isBlank(fixedAreaId)){
+			return;
+		}
+		//清空传入的对应定区的已关联数据
+		customerRespory.cleanFixedAreaId(fixedAreaId);
+		//重新关联
+		if(StringUtils.isNotBlank(custoimerIds)){
+			String[] ids = custoimerIds.split(",");
+			for (int i = 0; i < ids.length; i++) {
+				Integer id = Integer.parseInt(ids[i]);
+				customerRespory.updateFixedAreaId(fixedAreaId,id);
+			}
 		}
 	}
 
