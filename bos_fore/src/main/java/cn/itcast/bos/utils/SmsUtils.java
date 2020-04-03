@@ -1,4 +1,4 @@
-﻿package cn.itcast.bos.utils;
+package cn.itcast.bos.utils;
 
 import java.io.BufferedReader;
 import java.io.IOException;
