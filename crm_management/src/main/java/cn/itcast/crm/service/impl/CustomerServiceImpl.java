@@ -62,4 +62,20 @@ public class CustomerServiceImpl implements CustomerService {
 		customerRespory.save(customer);
 	}
 
+	/**
+	 * 查询用户是否已注册
+	 */
+	@Override
+	public Customer findByTelephone(String telephone) {
+		return customerRespory.findByTelephone(telephone);
+	}
+
+	/**
+	 * 更新用户注册类型
+	 */
+	@Override
+	public void updateType(String telephone) {
+		customerRespory.updateType(telephone);
+	}
+
 }

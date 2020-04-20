@@ -55,4 +55,19 @@ public interface CustomerService {
 	@Consumes({"application/json","application/xml"})
 	public void regist(Customer customer);
 	
+	/**
+	 * 查询用户是否已注册
+	 */
+	@Path("/customer/telephone/{telephone}")
+	@GET
+	@Produces({"application/json","application/xml"})
+	public Customer findByTelephone(@PathParam("telephone")String telephone);
+	
+	/**
+	 * 更新用户注册类型
+	 */
+	@Path("/customer/updatetype/{telephone}")
+	@GET
+	public void updateType(@PathParam("telephone")String telephone);
+	
 }
