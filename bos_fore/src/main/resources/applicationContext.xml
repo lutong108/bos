@@ -21,4 +21,7 @@
 	
 	<!-- 引入redis -->
 	<import resource="applicationContext-cache.xml"/>
+	
+	<!-- 引入mq -->
+	<import resource="applicationContext-mq.xml"/>
 </beans>

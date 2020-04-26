@@ -3,6 +3,10 @@ package cn.itcast.bos.web.action;
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
+import javax.jms.JMSException;
+import javax.jms.MapMessage;
+import javax.jms.Message;
+import javax.jms.Session;
 import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.core.MediaType;
 
@@ -14,8 +18,11 @@ import org.apache.struts2.convention.annotation.Namespace;
 import org.apache.struts2.convention.annotation.ParentPackage;
 import org.apache.struts2.convention.annotation.Result;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Scope;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.jms.core.JmsTemplate;
+import org.springframework.jms.core.MessageCreator;
 import org.springframework.stereotype.Controller;
 
 import cn.itcast.bos.utils.MailUtils;
@@ -28,6 +35,9 @@ import cn.itcast.crm.domain.Customer;
 public class CustomerAction  extends BaseAction<Customer> {
 	private static final long serialVersionUID = 1L;
 	
+	@Autowired
+	@Qualifier("jmsQueueTemplate")
+	private JmsTemplate jmsTemplate;
 	/**
 	 * 发送短信验证码
 	 * @return
@@ -43,13 +53,24 @@ public class CustomerAction  extends BaseAction<Customer> {
 				.setAttribute(model.getTelephone(), randomCode);
 
 		System.out.println("生成手机验证码为：" + randomCode);
+		
 		// 编辑短信内容
-		/*final String msg = "尊敬的用户您好，本次获取的验证码为：" + randomCode
-				+ ",服务电话：4006184000";*/
-		//调用SMS发短信
+		final String msg = "尊敬的用户您好，本次获取的验证码为：" + randomCode
+				+ ",服务电话：4006184000";
+		//调用MQ发短信
+		jmsTemplate.send("bos_sms",new MessageCreator(){
+			@Override
+			public Message createMessage(Session session) throws JMSException {
+				MapMessage mapMessage = session.createMapMessage();
+				mapMessage.setString("telephone", model.getTelephone());
+				mapMessage.setString("msg", msg);
+				return mapMessage;
+			}
+		});
+		/*//调用SMS发短信
 		//String result = SmsUtils.sendSmsByHTTP(model.getTelephone(), msg);
 		String result = "000";
-		System.out.println(result);
+		System.out.println(result);*/
 		return NONE;
 	}
 	
