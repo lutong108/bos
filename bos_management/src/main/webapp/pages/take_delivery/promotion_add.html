@@ -41,7 +41,18 @@
                 		fileManagerJson : '../../image_manage.action'
 				    });
 				});
-				
+				// 为保存按钮，添加click事件
+				$("#save").click(function(){
+					if($("#promotionForm").form('validate')){
+						// 通过kindEditor数据到textarea 
+						window.editor.sync();
+						// 提交表单
+						$("#promotionForm").submit();
+					}else{
+						// 校验失败
+						$.messager.alert("警告信息","表单中存在数据非法项！","warning");
+					}
+				});
 			});
 		</script>
 	</head>
@@ -53,7 +64,8 @@
 			</div>
 		</div>
 		<div region="center" style="overflow:auto;padding:5px;" border="false">
-			<form id="promotionForm" method="post">
+			<form id="promotionForm" enctype="multipart/form-data"
+				action="../../promotion_save.action" method="post">
 				<table class="table-edit" width="95%" align="center">
 					<tr class="title">
 						<td colspan="4">宣传任务</td>
