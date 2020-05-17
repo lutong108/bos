@@ -1,5 +1,7 @@
 package cn.itcast.bos.service.take_delivery;
 
+import java.util.Date;
+
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
@@ -37,6 +39,12 @@ public interface PromotionService {
 	@GET
 	@Produces({ "application/xml", "application/json" })
 	Promotion findById(@PathParam("id") Integer id);
+
+	/**
+	 * 修改商品过期状态
+	 * @param date
+	 */
+	void updateStatus(Date date);
 		
 		
 }
