@@ -25,6 +25,7 @@ import org.springframework.jms.core.JmsTemplate;
 import org.springframework.jms.core.MessageCreator;
 import org.springframework.stereotype.Controller;
 
+import cn.itcast.bos.domain.contant.Constants;
 import cn.itcast.bos.utils.MailUtils;
 import cn.itcast.crm.domain.Customer;
 
@@ -163,4 +164,30 @@ public class CustomerAction  extends BaseAction<Customer> {
 		}
 		return NONE;
 	}
+	
+	/**
+	 * 登录
+	 * @return
+	 */
+	@Action(value = "customer_login", results = {
+			@Result(name = "login", location = "login.html", type = "redirect"),
+			@Result(name = "success", location = "index.html#/myhome", type = "redirect") })
+	public String login() {
+		Customer customer = WebClient
+				.create(Constants.CRM_MANAGEMENT_URL
+						+ "/services/customerService/customer/login?telephone="
+						+ model.getTelephone() + "&password="
+						+ model.getPassword())
+				.accept(MediaType.APPLICATION_JSON).get(Customer.class);
+		if (customer == null) {
+			// 登录失败
+			return LOGIN;
+		} else {
+			// 登录成功
+			ServletActionContext.getRequest().getSession()
+					.setAttribute("customer", customer);
+			return SUCCESS;
+		}
+	}
+	
 }

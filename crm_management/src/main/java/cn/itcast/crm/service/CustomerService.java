@@ -70,4 +70,15 @@ public interface CustomerService {
 	@GET
 	public void updateType(@PathParam("telephone")String telephone);
 	
+	/**
+	 * 用户登录
+	 * @param telephone
+	 * @param password
+	 * @return
+	 */
+	@Path("customer/login")
+	@GET
+	@Consumes({ "application/xml", "application/json" })
+	public Customer login(@QueryParam("telephone") String telephone,
+			@QueryParam("password") String password);
 }

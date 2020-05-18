@@ -78,4 +78,13 @@ public class CustomerServiceImpl implements CustomerService {
 		customerRespory.updateType(telephone);
 	}
 
+	/**
+	 * 用户登录
+	 */
+	@Override
+	public Customer login(String telephone, String password) {
+		return customerRespory.findByTelephoneAndPassword(telephone,
+				password);
+	}
+
 }
